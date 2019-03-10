@@ -1,9 +1,10 @@
 const container = document.querySelector('.container');
+const ms = document.querySelector('.ms');
 
 let users = []
 function fetchAndPutUsers() {
     start = start || Date.now();
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch('https://jsonplaceholder.typicode.com/photos')
         .then(response => response.json())
         .then((users) => {
             console.log(users);
@@ -18,10 +19,21 @@ function fetchAndPutUsers() {
             userPut.onerror = function(e) {
                 console.log(e);
             }
-        })})
-        .then(() => {
+        })
+        return users
+    })
+        .then((users) => {
+            console.log(users);
+            users.forEach(user => {
+                let p = document.createElement('p');
+                p.innerHTML = user.title;
+                container.append(p);
+            })
             end = end || Date.now();
             console.log(end - start + ' ms')
+            let p2 = document.createElement('p');
+            p2.innerHTML = end - start + 'ms';
+            ms.append(p2);
         }).catch((e) => console.log(e))
 }
 
@@ -73,13 +85,13 @@ request.onsuccess = function(event) {
             console.log(getAllUsers.result);
             getAllUsers.result.forEach(item => {
                 let p = document.createElement('p');
-                p.innerHTML = item.name;
+                p.innerHTML = item.title;
                 container.append(p);
-                end = end || Date.now();
-                let p2 = document.createElement('p');
-                p2.innerHTML = end - start + 'ms';
-                container.append(p2);
             })
+            end = end || Date.now();
+            let p2 = document.createElement('p');
+            p2.innerHTML = end - start + 'ms';
+            ms.append(p2);
         }
     }
 }
